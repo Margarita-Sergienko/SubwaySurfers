@@ -22,8 +22,16 @@ public class Main extends PApplet {
         fill(250, 139, 154);
         ellipse(user.x, user.y, 50, 50);
         if(!gameOver) {
+
             if (units % 150 == 0) {
                 obstacles.add(generateObstacle());
+            }
+            if (obstacles.get(obstacles.size()-1).lane == user.lane) {
+                System.out.println(1);
+                if(obstacles.get(obstacles.size()-1).y+60 >= user.y-25) {
+                    System.out.println(2);
+                    gameOver = true;
+                }
             }
             for (int i = 0; i < obstacles.size(); i++) {
                 Obstacle currObstacle = obstacles.get(i);
@@ -35,9 +43,8 @@ public class Main extends PApplet {
                     currObstacle.move();
                 }
             }
-            if (obstacles.get(obstacles.size() - 1).y >= user.y + 50 && obstacles.get(obstacles.size() - 1).x == user.x) {
-                gameOver = true;
-            }
+
+
 
 
             units++;
@@ -60,17 +67,17 @@ public class Main extends PApplet {
     }
     public Obstacle generateObstacle(){
         int lane = (int)(Math.random()*3+1);
-        int x;
+        int x = 0;
         if(lane == 1){
             x = 150;
         }
         else if(lane == 2){
             x = 250;
         }
-        else {
+        else if(lane == 3){
             x = 350;
         }
-        return new Obstacle(x);
+        return new Obstacle(x, lane);
     }
 
     public void generateItem(){
